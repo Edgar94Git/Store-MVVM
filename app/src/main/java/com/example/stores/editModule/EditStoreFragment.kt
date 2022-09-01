@@ -1,7 +1,6 @@
-package com.example.stores
+package com.example.stores.editModule
 
 import android.content.Context
-import android.inputmethodservice.InputMethodService
 import android.os.Bundle
 import android.text.Editable
 import android.view.*
@@ -11,10 +10,13 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.stores.R
+import com.example.stores.StoreApplication
+import com.example.stores.common.entities.StoreEntity
 import com.example.stores.databinding.FragmentEditStoreBinding
+import com.example.stores.mainModule.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import org.jetbrains.anko.Android
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
