@@ -65,6 +65,30 @@ class EditStoreFragment : Fragment() {
 
             setupActionBar()
         })
+
+        mEditStoreViewModel.getResult().observe(viewLifecycleOwner, { result ->
+            hideKeyboard()
+            when(result){
+                is Long ->{
+                    mStoreEntity!!.id = result
+                    mEditStoreViewModel.setStoreSelected(mStoreEntity!!)
+                    Toast.makeText(
+                        mActivity,
+                        R.string.edit_store_message_success,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    mActivity?.onBackPressed()
+                }
+                is StoreEntity -> {
+                    mEditStoreViewModel.setStoreSelected(mStoreEntity!!)
+                    Snackbar.make(
+                        mBinding.root,
+                        R.string.edit_store_message_update_success,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
     }
 
     private fun setupActionBar() {
@@ -125,33 +149,11 @@ class EditStoreFragment : Fragment() {
                         webSite = mBinding.etWebSite.text.toString().trim()
                         photoUrl = mBinding.etPhotoUrl.text.toString().trim()
                     }
-                    doAsync {
-                        if(mIsEditMode)
-                            StoreApplication.dataBase.storeDao().updateStore(mStoreEntity!!)
-                        else
-                            mStoreEntity?.id = StoreApplication.dataBase.storeDao().addStore(mStoreEntity!!)
-                        uiThread {
-                            hideKeyboard()
-                            if(mIsEditMode)
-                            {
-                                //mActivity?.updateStore(mStoreEntity!!)
-                                Snackbar.make(
-                                    mBinding.root,
-                                    R.string.edit_store_message_update_success,
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                            }
-                            else {
-                                //mActivity?.addStore(mStoreEntity!!)
-                                Toast.makeText(
-                                    mActivity,
-                                    R.string.edit_store_message_success,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                mActivity?.onBackPressed()
-                            }
-                        }
-                    }
+
+                    if(mIsEditMode)
+                        mEditStoreViewModel.updateStore(mStoreEntity!!)
+                    else
+                        mEditStoreViewModel.saveStore(mStoreEntity!!)
                 }
                 true
             }
@@ -188,6 +190,7 @@ class EditStoreFragment : Fragment() {
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         mActivity?.supportActionBar?.title = getString(R.string.app_name)
         mEditStoreViewModel.setShowFab(true)
+        mEditStoreViewModel.setResult(Any())
         setHasOptionsMenu(false)
         super.onDestroy()
     }
