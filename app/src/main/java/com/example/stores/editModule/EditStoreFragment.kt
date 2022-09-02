@@ -24,7 +24,7 @@ class EditStoreFragment : Fragment() {
     private  lateinit var mBinding: FragmentEditStoreBinding
     private var mActivity: MainActivity? = null
     private var mIsEditMode: Boolean = false
-    private var mStoreEntity: StoreEntity? = null
+    private lateinit var mStoreEntity: StoreEntity
     private lateinit var mEditStoreViewModel: EditStoreViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,8 +65,8 @@ class EditStoreFragment : Fragment() {
             hideKeyboard()
             when (result) {
                 is Long -> {
-                    mStoreEntity!!.id = result
-                    mEditStoreViewModel.setStoreSelected(mStoreEntity!!)
+                    mStoreEntity.id = result
+                    mEditStoreViewModel.setStoreSelected(mStoreEntity)
                     Toast.makeText(
                         mActivity,
                         R.string.edit_store_message_success,
@@ -75,7 +75,7 @@ class EditStoreFragment : Fragment() {
                     mActivity?.onBackPressed()
                 }
                 is StoreEntity -> {
-                    mEditStoreViewModel.setStoreSelected(mStoreEntity!!)
+                    mEditStoreViewModel.setStoreSelected(mStoreEntity)
                     Snackbar.make(
                         mBinding.root,
                         R.string.edit_store_message_update_success,
@@ -136,9 +136,9 @@ class EditStoreFragment : Fragment() {
                 true
             }
             R.id.action_save ->{
-                if(mStoreEntity != null && validationFields(mBinding.tilPhotoUrl, mBinding.tilPhone, mBinding.tilName))
+                if(validationFields(mBinding.tilPhotoUrl, mBinding.tilPhone, mBinding.tilName))
                 {
-                    with(mStoreEntity!!){
+                    with(mStoreEntity){
                         name = mBinding.etName.text.toString().trim()
                         phone = mBinding.etPhone.text.toString().trim()
                         webSite = mBinding.etWebSite.text.toString().trim()
@@ -146,9 +146,9 @@ class EditStoreFragment : Fragment() {
                     }
 
                     if(mIsEditMode)
-                        mEditStoreViewModel.updateStore(mStoreEntity!!)
+                        mEditStoreViewModel.updateStore(mStoreEntity)
                     else
-                        mEditStoreViewModel.saveStore(mStoreEntity!!)
+                        mEditStoreViewModel.saveStore(mStoreEntity)
                 }
                 true
             }
