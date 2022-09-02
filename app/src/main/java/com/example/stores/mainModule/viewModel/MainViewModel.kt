@@ -11,9 +11,11 @@ import org.jetbrains.anko.uiThread
 
 class MainViewModel: ViewModel() {
     private var interactor: MainInteractor
+    private var storeList: MutableList<StoreEntity>
 
     init {
         interactor = MainInteractor()
+        storeList = mutableListOf()
     }
 
     private val stores: MutableLiveData<List<StoreEntity>> by lazy {
@@ -30,5 +32,25 @@ class MainViewModel: ViewModel() {
         interactor.getStores {
             stores.value = it
         }
+    }
+
+    fun deleteStore(storeEntity: StoreEntity){
+        interactor.deleteStore(storeEntity, {
+            val index = storeList.indexOf(storeEntity)
+            if(index != -1){
+                storeList.removeAt(index)
+                stores.value = storeList
+            }
+        })
+    }
+
+    fun updateStore(storeEntity: StoreEntity){
+        interactor.updateStore(storeEntity, {
+            val index = storeList.indexOf(storeEntity)
+            if(index != -1){
+                storeList.set(index, storeEntity)
+                stores.value = storeList
+            }
+        })
     }
 }
