@@ -11,11 +11,7 @@ class EditStoreViewModel: ViewModel() {
     private val showFab = MutableLiveData<Boolean>()
     private val result = MutableLiveData<Any>()
 
-    private val interactor: EditStoreInteractor
-
-    init {
-        interactor = EditStoreInteractor()
-    }
+    private val interactor: EditStoreInteractor = EditStoreInteractor()
 
     fun setStoreSelected(storeEntity: StoreEntity){
         storeSelected.value = storeEntity
@@ -38,18 +34,18 @@ class EditStoreViewModel: ViewModel() {
     }
 
     fun getResult(): LiveData<Any>{
-        return result;
+        return result
     }
 
     fun saveStore(storeEntity: StoreEntity){
-        interactor.saveStore(storeEntity, { newId ->
+        interactor.saveStore(storeEntity) { newId ->
             result.value = newId
-        })
+        }
     }
 
     fun updateStore(storeEntity: StoreEntity){
-        interactor.updateStore(storeEntity, { storeUpdete ->
+        interactor.updateStore(storeEntity) { storeUpdete ->
             result.value = storeUpdete
-        })
+        }
     }
 }

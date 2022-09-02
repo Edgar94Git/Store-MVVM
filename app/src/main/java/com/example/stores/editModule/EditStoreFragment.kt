@@ -12,15 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.stores.R
-import com.example.stores.StoreApplication
 import com.example.stores.common.entities.StoreEntity
 import com.example.stores.databinding.FragmentEditStoreBinding
 import com.example.stores.editModule.viewModel.EditStoreViewModel
 import com.example.stores.mainModule.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class EditStoreFragment : Fragment() {
 
@@ -32,13 +29,13 @@ class EditStoreFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mEditStoreViewModel = ViewModelProvider(requireActivity()).get(EditStoreViewModel::class.java)
+        mEditStoreViewModel = ViewModelProvider(requireActivity())[EditStoreViewModel::class.java]
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mBinding = FragmentEditStoreBinding.inflate(inflater, container, false)
         return mBinding.root
     }
@@ -52,24 +49,22 @@ class EditStoreFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        mEditStoreViewModel.getStoreSelected().observe(viewLifecycleOwner, {
+        mEditStoreViewModel.getStoreSelected().observe(viewLifecycleOwner) {
             mStoreEntity = it
-            if(it.id != 0L){
+            if (it.id != 0L) {
                 mIsEditMode = true
                 setUriStore(it)
-            }
-            else
-            {
+            } else {
                 mIsEditMode = false
             }
 
             setupActionBar()
-        })
+        }
 
-        mEditStoreViewModel.getResult().observe(viewLifecycleOwner, { result ->
+        mEditStoreViewModel.getResult().observe(viewLifecycleOwner) { result ->
             hideKeyboard()
-            when(result){
-                is Long ->{
+            when (result) {
+                is Long -> {
                     mStoreEntity!!.id = result
                     mEditStoreViewModel.setStoreSelected(mStoreEntity!!)
                     Toast.makeText(
@@ -88,7 +83,7 @@ class EditStoreFragment : Fragment() {
                     ).show()
                 }
             }
-        })
+        }
     }
 
     private fun setupActionBar() {
@@ -162,7 +157,7 @@ class EditStoreFragment : Fragment() {
     }
 
     private fun validationFields(vararg textFields: TextInputLayout): Boolean {
-        var isValid: Boolean = true
+        var isValid = true
 
         for (textField in textFields)
         {
