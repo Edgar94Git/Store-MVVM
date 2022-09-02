@@ -42,9 +42,13 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
    override fun getItemCount(): Int = stores.size
 
    fun add(storeEntity: StoreEntity) {
-      if(!stores.contains(storeEntity)){
-         stores.add(storeEntity)
-         notifyItemInserted(stores.size-1)
+      if(storeEntity.id != 0L){
+         if(!stores.contains(storeEntity)){
+            stores.add(storeEntity)
+            notifyItemInserted(stores.size-1)
+         }
+         else
+            update(storeEntity)
       }
    }
 
@@ -53,7 +57,7 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
       notifyDataSetChanged()
    }
 
-   fun update(storeEntity: StoreEntity) {
+   private fun update(storeEntity: StoreEntity) {
       val index = stores.indexOf(storeEntity)
       if(index != 1){
          stores.set(index, storeEntity)
