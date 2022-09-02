@@ -115,12 +115,6 @@ class EditStoreFragment : Fragment() {
             R.id.action_save ->{
                 if(mStoreEntity != null && validationFields(mBinding.tilPhotoUrl, mBinding.tilPhone, mBinding.tilName))
                 {
-                    /*val store = StoreEntity(
-    name = mBinding.etName.text.toString().trim(),
-    phone = mBinding.etPhone.text.toString().trim(),
-    webSite = mBinding.etWebSite.text.toString().trim(),
-    photoUrl = mBinding.etPhotoUrl.text.toString().trim()
-)*/
                     with(mStoreEntity!!){
                         name = mBinding.etName.text.toString().trim()
                         phone = mBinding.etPhone.text.toString().trim()
@@ -181,33 +175,6 @@ class EditStoreFragment : Fragment() {
                 getString(R.string.edit_store_message_valid),
                 Snackbar.LENGTH_SHORT
             ).show()
-        }
-
-        return isValid
-    }
-
-    private fun validationFields(): Boolean {
-        var isValid: Boolean = true
-
-        if(mBinding.etPhotoUrl.text.toString().trim().isEmpty())
-        {
-            mBinding.tilPhotoUrl.error = getString(R.string.helper_required)
-            mBinding.etPhotoUrl.requestFocus()
-            isValid = false
-        }
-
-        if(mBinding.etPhone.text.toString().trim().isEmpty())
-        {
-            mBinding.tilPhone.error = getString(R.string.helper_required)
-            mBinding.etPhone.requestFocus()
-            isValid = false
-        }
-
-        if(mBinding.etName.text.toString().trim().isEmpty())
-        {
-            mBinding.tilName.error = getString(R.string.helper_required)
-            mBinding.etName.requestFocus()
-            isValid = false
         }
 
         return isValid
