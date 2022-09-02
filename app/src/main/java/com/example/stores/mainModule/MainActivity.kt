@@ -4,7 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stores.*
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         mMainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mMainViewModel.getStores().observe(this){ stores ->
             mAdapter.setStores(stores)
+            mBinding.progressbar.visibility = if(stores.size == 0) View.VISIBLE else View.GONE
         }
 
         mEditStoreViewModel = ViewModelProvider(this)[EditStoreViewModel::class.java]
@@ -50,6 +53,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         mEditStoreViewModel.getStoreSelected().observe(this) { storeEntity ->
             mAdapter.add(storeEntity)
         }
+
     }
 
     private fun setupRecyclerView() {
