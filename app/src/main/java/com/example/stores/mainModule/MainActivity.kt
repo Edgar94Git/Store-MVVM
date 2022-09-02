@@ -43,7 +43,10 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         mMainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mMainViewModel.getStores().observe(this){ stores ->
             mAdapter.setStores(stores)
-            mBinding.progressbar.visibility = if(stores.size == 0) View.VISIBLE else View.GONE
+        }
+
+        mMainViewModel.isShowProgress().observe(this) { isShowProgress ->
+            mBinding.progressbar.visibility = if (isShowProgress) View.VISIBLE else View.GONE
         }
 
         mEditStoreViewModel = ViewModelProvider(this)[EditStoreViewModel::class.java]
