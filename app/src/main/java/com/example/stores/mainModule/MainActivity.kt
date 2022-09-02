@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stores.*
 import com.example.stores.common.utils.MainAux
@@ -13,6 +14,7 @@ import com.example.stores.databinding.ActivityMainBinding
 import com.example.stores.editModule.EditStoreFragment
 import com.example.stores.mainModule.adapter.OnClickListener
 import com.example.stores.mainModule.adapter.StoreAdapter
+import com.example.stores.mainModule.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -23,19 +25,30 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     private lateinit var mGridLayoutManager: GridLayoutManager
     private lateinit var mAdapter: StoreAdapter
 
+    //MVVM
+    private lateinit var mMainViewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
         mBinding.fab.setOnClickListener { launchEditFragment() }
+        setupViewModel()
         setupRecyclerView()
+    }
+
+    private fun setupViewModel() {
+        mMainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        mMainViewModel.getStores().observe(this){ stores ->
+            mAdapter.setStores(stores)
+        }
     }
 
     private fun setupRecyclerView() {
         mAdapter = StoreAdapter(mutableListOf(), this)
         mGridLayoutManager = GridLayoutManager(this, resources.getInteger(R.integer.main_columns))
-        getStores()
+        //getStores()
         mBinding.recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = mGridLayoutManager
@@ -43,14 +56,14 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
         }
     }
 
-    private fun getStores(){
+    /*private fun getStores(){
         doAsync {
             val stores = StoreApplication.dataBase.storeDao().getAllStores()
             uiThread {
                 mAdapter.setStores(stores)
             }
         }
-    }
+    }*/
 
     override fun onClick(storeId: Long) {
         val args = Bundle()

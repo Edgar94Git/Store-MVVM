@@ -48,8 +48,8 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
       }
    }
 
-   fun setStores(stores: MutableList<StoreEntity>) {
-      this.stores = stores
+   fun setStores(stores: List<StoreEntity>) {
+      this.stores = stores as MutableList
       notifyDataSetChanged()
    }
 
