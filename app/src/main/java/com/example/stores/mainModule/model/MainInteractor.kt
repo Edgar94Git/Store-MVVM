@@ -1,5 +1,7 @@
 package com.example.stores.mainModule.model
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.example.stores.StoreApplication
@@ -12,7 +14,7 @@ import org.jetbrains.anko.uiThread
 
 class MainInteractor {
 
-    fun getStores(callback: (MutableList<StoreEntity>) -> Unit){
+    /*fun getStores(callback: (MutableList<StoreEntity>) -> Unit){
         val url = Constants.STORES_URL + Constants.GET_ALL_PATH
         var storeList = mutableListOf<StoreEntity>()
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null, { response ->
@@ -31,15 +33,19 @@ class MainInteractor {
         })
 
         StoreApplication.storeAPI.addToRequestQueue(jsonObjectRequest)
-    }
+    }*/
 
-    fun getStoresRoom(callback: (MutableList<StoreEntity>) -> Unit){
+    /*fun getStoresRoom(callback: (MutableList<StoreEntity>) -> Unit){
         doAsync {
             val storeList = StoreApplication.dataBase.storeDao().getAllStores()
             uiThread {
                 callback(storeList)
             }
         }
+    }*/
+
+    val stores: LiveData<MutableList<StoreEntity>> = liveData {
+        StoreApplication.dataBase.storeDao().getAllStores()
     }
 
     fun deleteStore(storeEntity: StoreEntity, callback: (StoreEntity) -> Unit){
