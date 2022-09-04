@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     private fun setupViewModel() {
         mMainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mMainViewModel.getStores().observe(this){ stores ->
+            mBinding.progressbar.visibility = View.GONE
             mAdapter.submitList(stores)
         }
 
