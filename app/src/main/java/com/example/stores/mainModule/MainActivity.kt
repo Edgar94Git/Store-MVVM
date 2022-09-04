@@ -16,6 +16,7 @@ import com.example.stores.editModule.EditStoreFragment
 import com.example.stores.editModule.viewModel.EditStoreViewModel
 import com.example.stores.mainModule.adapter.OnClickListener
 import com.example.stores.mainModule.adapter.StoreAdapter
+import com.example.stores.mainModule.adapter.StoreListAdapter
 import com.example.stores.mainModule.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
     private lateinit var mBinding: ActivityMainBinding
     private lateinit var mGridLayoutManager: GridLayoutManager
-    private lateinit var mAdapter: StoreAdapter
+    private lateinit var mAdapter: StoreListAdapter
 
     //MVVM
     private lateinit var mMainViewModel: MainViewModel
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     private fun setupViewModel() {
         mMainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mMainViewModel.getStores().observe(this){ stores ->
-            mAdapter.setStores(stores)
+            mAdapter.submitList(stores)
         }
 
         mMainViewModel.isShowProgress().observe(this) { isShowProgress ->
@@ -53,14 +54,10 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         mEditStoreViewModel.getShowFab().observe(this) { isVisible ->
             if (isVisible) mBinding.fab.show() else mBinding.fab.hide()
         }
-        mEditStoreViewModel.getStoreSelected().observe(this) { storeEntity ->
-            mAdapter.add(storeEntity)
-        }
-
     }
 
     private fun setupRecyclerView() {
-        mAdapter = StoreAdapter(mutableListOf(), this)
+        mAdapter = StoreListAdapter(this)
         mGridLayoutManager = GridLayoutManager(this, resources.getInteger(R.integer.main_columns))
         //getStores()
         mBinding.recyclerView.apply {

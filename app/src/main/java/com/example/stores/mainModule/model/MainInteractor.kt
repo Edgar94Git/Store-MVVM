@@ -45,7 +45,8 @@ class MainInteractor {
     }*/
 
     val stores: LiveData<MutableList<StoreEntity>> = liveData {
-        StoreApplication.dataBase.storeDao().getAllStores()
+        val storeLiveData = StoreApplication.dataBase.storeDao().getAllStores()
+        emitSource(storeLiveData)
     }
 
     fun deleteStore(storeEntity: StoreEntity, callback: (StoreEntity) -> Unit){
