@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stores.*
 import com.example.stores.common.entities.StoreEntity
+import com.example.stores.common.utils.TypeError
 import com.example.stores.databinding.ActivityMainBinding
 import com.example.stores.editModule.EditStoreFragment
 import com.example.stores.editModule.viewModel.EditStoreViewModel
@@ -19,6 +20,7 @@ import com.example.stores.mainModule.adapter.StoreAdapter
 import com.example.stores.mainModule.adapter.StoreListAdapter
 import com.example.stores.mainModule.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), OnClickListener {
 
@@ -49,6 +51,17 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
         mMainViewModel.isShowProgress().observe(this) { isShowProgress ->
             mBinding.progressbar.visibility = if (isShowProgress) View.VISIBLE else View.GONE
+        }
+
+        mMainViewModel.getTypeError().observe(this) { typeError ->
+            val msgRes = when (typeError) {
+                TypeError.GET -> "Error al obtener datos"
+                TypeError.INSERT -> "Error al insertar"
+                TypeError.UPDATE -> "Error al actualizar"
+                TypeError.DELETE -> "Error al eliminar"
+                else -> "Error no configurado"
+            }
+            Snackbar.make(mBinding.root, msgRes, Snackbar.LENGTH_SHORT).show()
         }
 
         mEditStoreViewModel = ViewModelProvider(this)[EditStoreViewModel::class.java]

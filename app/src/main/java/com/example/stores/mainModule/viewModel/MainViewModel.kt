@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stores.common.entities.StoreEntity
 import com.example.stores.common.utils.Constants
+import com.example.stores.common.utils.TypeError
 import com.example.stores.mainModule.model.MainInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -29,6 +30,9 @@ class MainViewModel: ViewModel() {
     }*/
 
     private val stores = interactor.stores
+    private val typeError: MutableLiveData<TypeError> = MutableLiveData()
+
+    fun getTypeError(): MutableLiveData<TypeError> = typeError
 
     fun getStores(): LiveData<MutableList<StoreEntity>>{
         return stores
