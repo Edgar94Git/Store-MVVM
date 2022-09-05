@@ -10,6 +10,7 @@ import com.example.stores.common.entities.StoreEntity
 import com.example.stores.common.utils.Constants
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.delay
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -46,7 +47,7 @@ class MainInteractor {
     }*/
 
     val stores: LiveData<MutableList<StoreEntity>> = liveData {
-        kotlinx.coroutines.delay(1_000) //Temporal para pruebas
+        delay(1_000) //Temporal para pruebas
         val storeLiveData = StoreApplication.dataBase.storeDao().getAllStores()
         emitSource(storeLiveData.map { stores ->
             stores.sortedBy { it.name }.toMutableList()
@@ -62,12 +63,8 @@ class MainInteractor {
         }
     }
 
-    fun updateStore(storeEntity: StoreEntity, callback: (StoreEntity) -> Unit){
-        doAsync {
-            StoreApplication.dataBase.storeDao().updateStore(storeEntity)
-            uiThread {
-                callback(storeEntity)
-            }
-        }
+    suspend fun updateStore(storeEntity: StoreEntity){
+        delay(300)
+        StoreApplication.dataBase.storeDao().updateStore(storeEntity)
     }
 }
