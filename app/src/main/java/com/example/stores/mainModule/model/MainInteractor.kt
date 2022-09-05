@@ -54,13 +54,9 @@ class MainInteractor {
         })
     }
 
-    fun deleteStore(storeEntity: StoreEntity, callback: (StoreEntity) -> Unit){
-        doAsync {
-            StoreApplication.dataBase.storeDao().deleteStore(storeEntity)
-            uiThread {
-                callback(storeEntity)
-            }
-        }
+    suspend fun deleteStore(storeEntity: StoreEntity){
+        delay(1_000)
+        StoreApplication.dataBase.storeDao().deleteStore(storeEntity)
     }
 
     suspend fun updateStore(storeEntity: StoreEntity){
