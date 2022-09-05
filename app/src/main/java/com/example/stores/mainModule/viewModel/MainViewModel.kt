@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stores.common.entities.StoreEntity
+import com.example.stores.common.utils.Constants
 import com.example.stores.mainModule.model.MainInteractor
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainViewModel: ViewModel() {
     private var interactor: MainInteractor
@@ -45,15 +48,39 @@ class MainViewModel: ViewModel() {
     }*/
 
     fun deleteStore(storeEntity: StoreEntity){
-        viewModelScope.launch {
+        /*viewModelScope.launch {
             interactor.deleteStore(storeEntity)
-        }
+        }*/
+        executeAction { interactor.deleteStore(storeEntity) }
     }
 
     fun updateStore(storeEntity: StoreEntity){
-        viewModelScope.launch {
-            storeEntity.isFavorite = ! storeEntity.isFavorite
-            interactor.updateStore(storeEntity)
+        /*viewModelScope.launch {
+            showProgress.value = Constants.SHOW
+            try {
+                storeEntity.isFavorite = ! storeEntity.isFavorite
+                interactor.updateStore(storeEntity)
+            }catch (ex: Exception){
+                ex.printStackTrace()
+            }finally {
+                showProgress.value = Constants.HIDE
+            }
+        }*/
+
+        storeEntity.isFavorite = ! storeEntity.isFavorite
+        executeAction { interactor.updateStore(storeEntity) }
+    }
+
+    private fun executeAction(block: suspend () -> Unit):Job{
+        return  viewModelScope.launch {
+            showProgress.value = Constants.SHOW
+            try {
+                block()
+            }catch (ex: Exception){
+                ex.printStackTrace()
+            }finally {
+                showProgress.value = Constants.HIDE
+            }
         }
     }
 }
