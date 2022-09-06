@@ -5,9 +5,6 @@ import com.example.stores.StoreApplication
 import com.example.stores.common.entities.StoreEntity
 import com.example.stores.common.utils.StoreException
 import com.example.stores.common.utils.TypeError
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import java.util.*
 
 class EditStoreInteractor {
 

@@ -7,16 +7,11 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.example.stores.StoreApplication
 import com.example.stores.common.entities.StoreEntity
-import com.example.stores.common.utils.Constants
 import com.example.stores.common.utils.StoreException
 import com.example.stores.common.utils.TypeError
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class MainInteractor {
 

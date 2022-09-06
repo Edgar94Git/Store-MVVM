@@ -8,16 +8,23 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.stores.R
 import com.example.stores.common.entities.StoreEntity
+import com.example.stores.common.utils.Constants
+import com.example.stores.common.utils.StoreException
+import com.example.stores.common.utils.TypeError
 import com.example.stores.databinding.FragmentEditStoreBinding
 import com.example.stores.editModule.viewModel.EditStoreViewModel
 import com.example.stores.mainModule.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class EditStoreFragment : Fragment() {
 
@@ -64,23 +71,17 @@ class EditStoreFragment : Fragment() {
         mEditStoreViewModel.getResult().observe(viewLifecycleOwner) { result ->
             hideKeyboard()
             when (result) {
-                is Long -> {
-                    mStoreEntity.id = result
-                    mEditStoreViewModel.setStoreSelected(mStoreEntity)
-                    Toast.makeText(
-                        mActivity,
-                        R.string.edit_store_message_success,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    mActivity?.onBackPressed()
-                }
                 is StoreEntity -> {
+                    val msgResult = if (result.id == 0L) R.string.edit_store_message_success
+                        else R.string.edit_store_message_update_success
                     mEditStoreViewModel.setStoreSelected(mStoreEntity)
                     Snackbar.make(
                         mBinding.root,
-                        R.string.edit_store_message_update_success,
+                        msgResult,
                         Snackbar.LENGTH_SHORT
                     ).show()
+
+                    mActivity?.onBackPressed()
                 }
             }
         }
