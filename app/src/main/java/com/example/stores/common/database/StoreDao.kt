@@ -17,8 +17,8 @@ interface StoreDao {
     fun addStore(storeEntity: StoreEntity): Long
 
     @Update
-    suspend fun updateStore(storeEntity: StoreEntity)
+    suspend fun updateStore(storeEntity: StoreEntity):Int
 
     @Delete
-    suspend fun deleteStore(storeEntity: StoreEntity)
+    suspend fun deleteStore(storeEntity: StoreEntity): Int
 }

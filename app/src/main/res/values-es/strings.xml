@@ -21,4 +21,9 @@
     <string name="main_error_no_resolve">No se encontro ninguna aplicacion compatible</string>
     <string name="option_item_call">Llamar</string>
     <string name="option_item_website">Visitar sitio web</string>
+    <string name="main_error_get">Error al obtener datos</string>
+    <string name="main_error_insert">Error al insertar</string>
+    <string name="main_error_update">Error al actualizar</string>
+    <string name="main_error_delete">Error al eliminar</string>
+    <string name="main_error_unknown">Not configured error</string>
 </resources>

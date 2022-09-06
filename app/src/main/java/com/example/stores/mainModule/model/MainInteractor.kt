@@ -8,6 +8,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.example.stores.StoreApplication
 import com.example.stores.common.entities.StoreEntity
 import com.example.stores.common.utils.Constants
+import com.example.stores.common.utils.StoreException
+import com.example.stores.common.utils.TypeError
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
@@ -55,12 +57,16 @@ class MainInteractor {
     }
 
     suspend fun deleteStore(storeEntity: StoreEntity){
+        //storeEntity.id = - 1
         delay(1_000)
-        StoreApplication.dataBase.storeDao().deleteStore(storeEntity)
+        val result = StoreApplication.dataBase.storeDao().deleteStore(storeEntity)
+        if(result == 0) throw StoreException(TypeError.DELETE)
     }
 
     suspend fun updateStore(storeEntity: StoreEntity){
+        //storeEntity.id = - 1
         delay(300)
-        StoreApplication.dataBase.storeDao().updateStore(storeEntity)
+        val result = StoreApplication.dataBase.storeDao().updateStore(storeEntity)
+        if(result == 0) throw StoreException(TypeError.UPDATE)
     }
 }

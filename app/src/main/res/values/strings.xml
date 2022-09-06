@@ -22,4 +22,9 @@
     <string name="option_item_website">visit website</string>
 
     <string name="arg_id" translatable="false">key_id</string>
+    <string name="main_error_get">Failed to get data</string>
+    <string name="main_error_insert">Error inserting</string>
+    <string name="main_error_update">Failed to update</string>
+    <string name="main_error_delete">Failed to delete</string>
+    <string name="main_error_unknown">Error no configurado</string>
 </resources>
