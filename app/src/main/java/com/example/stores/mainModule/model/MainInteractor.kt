@@ -12,7 +12,9 @@ import com.example.stores.common.utils.StoreException
 import com.example.stores.common.utils.TypeError
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -56,14 +58,14 @@ class MainInteractor {
         })
     }
 
-    suspend fun deleteStore(storeEntity: StoreEntity){
+    suspend fun deleteStore(storeEntity: StoreEntity) = withContext(Dispatchers.IO){
         //storeEntity.id = - 1
         delay(1_000)
         val result = StoreApplication.dataBase.storeDao().deleteStore(storeEntity)
         if(result == 0) throw StoreException(TypeError.DELETE)
     }
 
-    suspend fun updateStore(storeEntity: StoreEntity){
+    suspend fun updateStore(storeEntity: StoreEntity) = withContext(Dispatchers.IO){
         //storeEntity.id = - 1
         delay(300)
         val result = StoreApplication.dataBase.storeDao().updateStore(storeEntity)

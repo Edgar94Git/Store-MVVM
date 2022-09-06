@@ -11,24 +11,11 @@ import com.example.stores.common.utils.TypeError
 import com.example.stores.mainModule.model.MainInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class MainViewModel: ViewModel() {
-    private var interactor: MainInteractor
-    private var storeList: MutableList<StoreEntity>
-
-    init {
-        interactor = MainInteractor()
-        storeList = mutableListOf()
-    }
+    private var interactor: MainInteractor = MainInteractor()
 
     private var showProgress: MutableLiveData<Boolean> = MutableLiveData()
-
-    /*private val stores: MutableLiveData<MutableList<StoreEntity>> by lazy {
-        MutableLiveData<MutableList<StoreEntity>>().also {
-            loadStores()
-        }
-    }*/
 
     private val stores = interactor.stores
     private val typeError: MutableLiveData<TypeError> = MutableLiveData()
@@ -43,35 +30,11 @@ class MainViewModel: ViewModel() {
         return showProgress
     }
 
-    /*private fun loadStores(){
-        showProgress.value = Constants.SHOW
-        interactor.getStores {
-            showProgress.value = Constants.HIDE
-            stores.value = it
-            storeList = it
-        }
-    }*/
-
     fun deleteStore(storeEntity: StoreEntity){
-        /*viewModelScope.launch {
-            interactor.deleteStore(storeEntity)
-        }*/
         executeAction { interactor.deleteStore(storeEntity) }
     }
 
     fun updateStore(storeEntity: StoreEntity){
-        /*viewModelScope.launch {
-            showProgress.value = Constants.SHOW
-            try {
-                storeEntity.isFavorite = ! storeEntity.isFavorite
-                interactor.updateStore(storeEntity)
-            }catch (ex: Exception){
-                ex.printStackTrace()
-            }finally {
-                showProgress.value = Constants.HIDE
-            }
-        }*/
-
         storeEntity.isFavorite = ! storeEntity.isFavorite
         executeAction { interactor.updateStore(storeEntity) }
     }
