@@ -20,11 +20,16 @@ class StoreApplication : Application (){
                 database.execSQL("ALTER TABLE StoreEntity ADD COLUMN photoUrl TEXT NOT NULL DEFAULT ''")
             }
         }
+        val MIGRATION_2_3 = object : Migration(2,3){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE UNIQUE INDEX index_StoreEntity_name ON StoreEntity (name)")
+            }
+        }
         dataBase = Room.databaseBuilder(
             this,
             StoreDataBase::class.java,
             "DataBase")
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
             .build()
         storeAPI = StoreAPI.getInstance(this)
     }
