@@ -23,6 +23,10 @@ class EditStoreViewModel: ViewModel() {
 
     fun getTypeError(): MutableLiveData<TypeError> = typeError
 
+    fun setTypeError(typeError: TypeError){
+        this.typeError.value = typeError
+    }
+
     fun setStoreSelected(storeEntity: StoreEntity){
         storeId = storeEntity.id
         //storeSelected.value = storeEntity

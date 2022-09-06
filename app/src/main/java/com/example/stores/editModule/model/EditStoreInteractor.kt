@@ -24,7 +24,11 @@ class EditStoreInteractor {
     }
 
     suspend fun  updateStore(storeEntity: StoreEntity) = withContext(Dispatchers.IO){
-        val result = StoreApplication.dataBase.storeDao().updateStore(storeEntity)
-        if(result == 0) throw StoreException(TypeError.UPDATE)
+        try {
+            val result = StoreApplication.dataBase.storeDao().updateStore(storeEntity)
+            if(result == 0) throw StoreException(TypeError.UPDATE)
+        }catch (ex: SQLiteConstraintException){
+            throw StoreException(TypeError.UPDATE)
+        }
     }
 }
