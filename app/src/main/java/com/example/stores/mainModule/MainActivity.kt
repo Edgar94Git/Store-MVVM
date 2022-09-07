@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stores.*
@@ -16,7 +15,6 @@ import com.example.stores.databinding.ActivityMainBinding
 import com.example.stores.editModule.EditStoreFragment
 import com.example.stores.editModule.viewModel.EditStoreViewModel
 import com.example.stores.mainModule.adapter.OnClickListener
-import com.example.stores.mainModule.adapter.StoreAdapter
 import com.example.stores.mainModule.adapter.StoreListAdapter
 import com.example.stores.mainModule.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -81,6 +79,10 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mEditStoreViewModel.setShowFab(true)
+    }
     override fun onClick(storeEntity: StoreEntity) {
         launchEditFragment(storeEntity)
     }

@@ -5,26 +5,19 @@ import android.os.Bundle
 import android.text.Editable
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.stores.R
 import com.example.stores.common.entities.StoreEntity
-import com.example.stores.common.utils.Constants
-import com.example.stores.common.utils.StoreException
 import com.example.stores.common.utils.TypeError
 import com.example.stores.databinding.FragmentEditStoreBinding
 import com.example.stores.editModule.viewModel.EditStoreViewModel
 import com.example.stores.mainModule.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class EditStoreFragment : Fragment() {
 
@@ -198,7 +191,6 @@ class EditStoreFragment : Fragment() {
     override fun onDestroy() {
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         mActivity?.supportActionBar?.title = getString(R.string.app_name)
-        mEditStoreViewModel.setShowFab(true)
         mEditStoreViewModel.setResult(Any())
         mEditStoreViewModel.setTypeError(TypeError.DONE)
         setHasOptionsMenu(false)

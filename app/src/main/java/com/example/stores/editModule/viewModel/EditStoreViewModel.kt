@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 
 class EditStoreViewModel: ViewModel() {
     private var storeId: Long = 0
-    private val storeSelected = MutableLiveData<StoreEntity>()
     private val showFab = MutableLiveData<Boolean>()
     private val result = MutableLiveData<Any>()
 
